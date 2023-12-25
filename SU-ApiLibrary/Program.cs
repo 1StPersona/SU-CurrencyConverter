@@ -1,84 +1,122 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-namespace SU_ApiLibrary
+using SU.ApiLibrary;
+using SU.ExceptionLog;
+
+namespace SU_LogicLevel
 {
-
-    public class ApiConnected
+    public class CurrencyConverter
     {
-        // URL для обращения к ExchangeRatesAPI
-        private const string ApiBaseUrl = "https://open.er-api.com/v6/latest";
+        private readonly ApiConnected apiConnected;
 
-        // Ключ API для аутентификации в ExchangeRatesAPI
-        private readonly string apiKey= "8d2259df382379422a2d32c61c051a1d";
-
-        // Объект HttpClient для отправки HTTP-запросов
-        private readonly HttpClient httpClient;
-
-        // Конструктор класса, принимающий ключ API при создании экземпляра
-        public ApiConnected(string apiKey)
+        public CurrencyConverter(ApiConnected apiConnected)
         {
-            this.apiKey = apiKey;
-            httpClient = new HttpClient();
+            this.apiConnected = apiConnected;
         }
 
-        // Метод для получения и вывода курсов валют
-        public async Task PrintCurrencyList()
+        public async Task ConvertCurrency()
         {
             try
             {
-                // Отправляем GET-запрос к ExchangeRatesAPI с ключом API
-                var response = await httpClient.GetStringAsync($"{ApiBaseUrl}?access_key={apiKey}");
+                var exchangeRates = await apiConnected.GetExchangeRatesAsync();
 
-                // Десериализуем ответ в объект ExchangeRatesResponse
-                var rates = JsonConvert.DeserializeObject<ExchangeRatesResponse>(response);
+                Console.WriteLine("Выберите исходную валюту из списка:");
+                await PrintCurrencyList(exchangeRates);
 
-                // Проверяем, успешно ли получены курсы
-                if (rates != null && rates.Rates != null)
+                Console.Write("Введите исходную валюту: ");
+                string sourceCurrency = Console.ReadLine().ToUpper();
+
+                Console.WriteLine("Выберите целевую валюту из списка:");
+
+                Console.Write("Введите целевую валюту: ");
+                string targetCurrency = Console.ReadLine().ToUpper();
+
+                if (!exchangeRates.ContainsKey(sourceCurrency) || !exchangeRates.ContainsKey(targetCurrency))
                 {
-                    Console.WriteLine("Курсы обмена:");
+                    ExceptionLogger.LogError("Выбранная валюта не найдена в списке курсов обмена.");
+                    throw new Exception("Выбранная валюта не найдена в списке курсов обмена.");
+                }
 
-                    // Выводим курсы обмена в консоль
-                    foreach (var rate in rates.Rates)
-                    {
-                        Console.WriteLine($"{rate.Key}: {rate.Value}");
-                    }
-                }
-                else
+                Console.Write("Введите сумму для конвертации: ");
+                if (!decimal.TryParse(Console.ReadLine(), out decimal amount) || amount <= 0)
                 {
-                    Console.WriteLine("Невозможно получить курсы обмена.");
+                    ExceptionLogger.LogError("Ошибка ввода суммы.");
+                    throw new Exception("Ошибка ввода суммы.");
                 }
+
+                if (sourceCurrency == targetCurrency)
+                {
+                    ExceptionLogger.LogError("Вы выбрали одинаковую валюту. Зачем?");
+                    throw new Exception("Вы выбрали одинаковую валюту. Зачем?");
+                }
+
+                decimal sourceRate = exchangeRates[sourceCurrency];
+                decimal targetRate = exchangeRates[targetCurrency];
+
+                decimal convertedAmount = (amount / sourceRate) * targetRate;
+
+                Console.WriteLine($"{amount} {sourceCurrency} = {convertedAmount} {targetCurrency}");
             }
             catch (Exception ex)
             {
-                // Обработка ошибок при запросе к API
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                ExceptionLogger.LogError($"Ошибка при конвертации валют: {ex}");
             }
         }
 
-        // Метод для конвертации суммы в другую валюту
-        public decimal ConvertCurrency(decimal amount, decimal exchangeRate)
+        public async Task PrintCurrencyList(Dictionary<string, decimal> exchangeRates)
         {
-            return amount * exchangeRate;
+            Console.WriteLine("Доступные валюты:");
+            foreach (var rate in exchangeRates)
+            {
+                Console.Write($"{rate.Key} ");
+            }
+            Console.WriteLine();
         }
     }
 
-    // Класс, представляющий структуру ответа от ExchangeRatesAPI
-    public class ExchangeRatesResponse
-    {
-        public Dictionary<string, decimal> Rates { get; set; }
-    }
     internal class Program
     {
         static async Task Main(string[] args)
         {
-            var apiConnected = new ApiConnected("");
-            await apiConnected.PrintCurrencyList();
+            var apiConnected = new ApiConnected();
+            var currencyConverter = new CurrencyConverter(apiConnected);
+
+            bool exitRequested = false;
+
+            while (!exitRequested)
+            {
+                Console.WriteLine("Выберите действие:");
+                Console.WriteLine("1. Просмотреть курсы валют");
+                Console.WriteLine("2. Конвертировать валюту");
+                Console.WriteLine("0. Выйти");
+
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        // Просмотр курсов валют
+                        await apiConnected.PrintCurrencyList();
+                        break;
+
+                    case "2":
+                        // Конвертация валюты
+                        await currencyConverter.ConvertCurrency();
+                        break;
+
+                    case "0":
+                        // Выход из программы
+                        exitRequested = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Неверный выбор. Пожалуйста, введите корректное значение.");
+                        break;
+                }
+
+                Console.WriteLine(); // Добавляем пустую строку для разделения
+            }
         }
     }
-
 }

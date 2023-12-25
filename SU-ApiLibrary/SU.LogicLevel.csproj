@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6C2B674F-4A7B-49F4-8715-63257D07A6E1}</ProjectGuid>
+    <ProjectGuid>{71613F0D-187A-4368-96DC-6193A79713EF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SU_CurrencyConverter</RootNamespace>
-    <AssemblyName>SU-CurrencyConverter</AssemblyName>
+    <RootNamespace>SU_ApiLibrary</RootNamespace>
+    <AssemblyName>SU-ApiLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,6 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.5.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +57,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SU.ApiLibrary\SU.ApiLibrary.csproj">
+      <Project>{2cc07b62-4d5a-4719-b51f-ec8ac1e1b950}</Project>
+      <Name>SU.ApiLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SU.ExceptionLog\SU.ExceptionLog.csproj">
+      <Project>{5c4cf4b6-c61d-4075-aa5e-c434ebe81d40}</Project>
+      <Name>SU.ExceptionLog</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
