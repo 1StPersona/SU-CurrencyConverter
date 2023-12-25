@@ -14,7 +14,7 @@ namespace SU.ExceptionLog
         static ExceptionLogger()
         {
             // Указываем путь к файлу лога
-            string logFilePath = @"C:\Users\danil\OneDrive\Документы\ComputerScience\SU-CurrencyConverter\Logs\log.txt";
+            string logFilePath = $@"C:\Users\danil\OneDrive\Документы\ComputerScience\SU-CurrencyConverter\Logs\log-{Guid.NewGuid().ToString()}log.txt";
 
             // Конфигурация Serilog для записи в текстовый файл
             Log.Logger = new LoggerConfiguration()

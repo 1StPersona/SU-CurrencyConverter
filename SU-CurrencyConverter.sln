@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SU.ApiLibrary", "SU.ApiLibr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SU.ExceptionLog", "SU.ExceptionLog\SU.ExceptionLog.csproj", "{5C4CF4B6-C61D-4075-AA5E-C434EBE81D40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SU.WpfApp", "SU.WpfApp\SU.WpfApp.csproj", "{5E442464-4746-4A24-8356-1DABD3329F76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Librarys", "Librarys", "{E9383D57-9444-408F-9968-DA871BE4587A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,17 @@ Global
 		{5C4CF4B6-C61D-4075-AA5E-C434EBE81D40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C4CF4B6-C61D-4075-AA5E-C434EBE81D40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C4CF4B6-C61D-4075-AA5E-C434EBE81D40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E442464-4746-4A24-8356-1DABD3329F76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E442464-4746-4A24-8356-1DABD3329F76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E442464-4746-4A24-8356-1DABD3329F76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E442464-4746-4A24-8356-1DABD3329F76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2CC07B62-4D5A-4719-B51F-EC8AC1E1B950} = {E9383D57-9444-408F-9968-DA871BE4587A}
+		{5C4CF4B6-C61D-4075-AA5E-C434EBE81D40} = {E9383D57-9444-408F-9968-DA871BE4587A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C290388-BB0C-44E8-9FF9-D525CE33BF8C}

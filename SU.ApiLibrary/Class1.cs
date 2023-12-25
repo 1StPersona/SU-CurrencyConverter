@@ -5,6 +5,8 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using SU.ExceptionLog;
+using Serilog;
+
 namespace SU.ApiLibrary
 {
     /// <summary>
@@ -35,6 +37,7 @@ namespace SU.ApiLibrary
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
+                    Log.Error("API ключ не может быть пустым или содержать только пробелы.");
                     throw new Exception("API ключ не может быть пустым или содержать только пробелы.");
                 }
                 else
@@ -77,7 +80,7 @@ namespace SU.ApiLibrary
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка при получении курсов валют: {ex.Message}");
+                Log.Error($"Ошибка при получении курсов валют: {ex.Message}");
                 throw;
             }
         }
@@ -103,12 +106,13 @@ namespace SU.ApiLibrary
                 }
                 else
                 {
+                    Log.Error("Невозможно получить курсы обмена.");
                     throw new Exception("Невозможно получить курсы обмена.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                Log.Error($"Ошибка: {ex.Message}");
                 throw;
             }
         }
