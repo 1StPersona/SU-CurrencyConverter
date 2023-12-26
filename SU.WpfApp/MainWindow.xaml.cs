@@ -1,4 +1,4 @@
-﻿// MainWindow.xaml.cs
+﻿
 using SU.ApiLibrary;
 using SU.ExceptionLog;
 using System;

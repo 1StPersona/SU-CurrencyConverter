@@ -6,15 +6,25 @@ using SU.ExceptionLog;
 
 namespace SU_LogicLevel
 {
+    /// <summary>
+    /// Класс для конвертации валюты.
+    /// </summary>
     public class CurrencyConverter
     {
         private readonly ApiConnected apiConnected;
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса CurrencyConverter.
+        /// </summary>
+        /// <param name="apiConnected">Подключение к API для получения курсов валют.</param>
         public CurrencyConverter(ApiConnected apiConnected)
         {
             this.apiConnected = apiConnected;
         }
 
+        /// <summary>
+        /// Метод для конвертации валюты.
+        /// </summary>
         public async Task ConvertCurrency()
         {
             try
@@ -64,6 +74,10 @@ namespace SU_LogicLevel
             }
         }
 
+        /// <summary>
+        /// Выводит список доступных валют.
+        /// </summary>
+        /// <param name="exchangeRates">Словарь с курсами валют.</param>
         public async Task PrintCurrencyList(Dictionary<string, decimal> exchangeRates)
         {
             Console.WriteLine("Доступные валюты:");
@@ -75,8 +89,15 @@ namespace SU_LogicLevel
         }
     }
 
+    /// <summary>
+    /// Класс с точкой входа в программу.
+    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Точка входа в программу.
+        /// </summary>
+        /// <param name="args">Аргументы командной строки.</param>
         static async Task Main(string[] args)
         {
             var apiConnected = new ApiConnected();

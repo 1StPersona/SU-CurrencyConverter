@@ -5,17 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SU.WpfApp"
         mc:Ignorable="d"
-        Title="Currency Converter" Height="450" Width="800">
+        Title="Currency Converter" Height="300" Width="400">
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="10" HorizontalAlignment="Left">
             <Label Content="Source Currency"/>
             <ComboBox x:Name="cmbSourceCurrency" Width="120"/>
             <Label Content="Target Currency"/>
             <ComboBox x:Name="cmbTargetCurrency" Width="120"/>
             <Label Content="Amount"/>
             <TextBox x:Name="txtAmount" Width="120"/>
-            <Button Content="Convert" Click="ButtonConvert_Click" Width="120"/>
-            <TextBlock x:Name="txtResult"/>
+            <Button Content="Convert" Click="ButtonConvert_Click" Width="120" Margin="0,10,0,0" Background="#4285f4" Foreground="White" FontSize="16"  />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="10" HorizontalAlignment="Left">
+            <Label Content="Result"/>
+            <TextBlock x:Name="txtResult" FontSize="16" FontWeight="Bold"/>
         </StackPanel>
     </Grid>
 </Window>
